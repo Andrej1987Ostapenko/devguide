@@ -1,5 +1,4 @@
-.. _devguide-main:
-
+.. _devguide-main:python-telegram-bot
 ========================
 Python Developer's Guide
 ========================
@@ -189,6 +188,7 @@ documentation has been read so you may find it necessary to backtrack to fill in
 missing concepts and terminology.
 
 
+
 Proposing changes to Python itself
 ----------------------------------
 
@@ -247,7 +247,37 @@ Key resources
   * :ref:`experts`
 
 * `Buildbot status`_
-* Source code
+* Source code import telegram
+from telegram.ext import Updater, CommandHandler
+
+# Замените 'YOUR_BOT_TOKEN' на ваш реальный токен
+BOT_TOKEN = 'YOUR_BOT_TOKEN'
+
+def start(update, context):
+    context.bot.send_message(chat_id=update.effective_chat.id, text="Привет! Я танцующий бот!")
+
+def dance(update, context):
+    # Здесь будет логика "танца" (например, отправка гифки или текста)
+    context.bot.send_message(chat_id=update.effective_chat.id, text="") # Простой пример
+    # Или отправка гифки:
+    # context.bot.send_animation(chat_id=update.effective_chat.id, animation="YOUR_GIF_URL")
+
+def main():
+    updater = Updater(token=BOT_TOKEN, use_context=True)
+    dispatcher = updater.dispatcher
+
+    start_handler = CommandHandler('start', start)
+    dance_handler = CommandHandler('dance', dance) # Команда /dance
+
+    dispatcher.add_handler(start_handler)
+    dispatcher.add_handler(dance_handler)
+
+    updater.start_polling()
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
+
 
   * `Browse online <https://github.com/python/cpython/>`_
   * `Snapshot of the *main* branch <https://github.com/python/cpython/archive/main.zip>`_
